@@ -206,7 +206,14 @@ return newArray;
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
+  if (collection.length === 0) {
+      return false;
+    }
+    iterator = iterator || _.identity;
+    return !!_.reduce(collection, function(accumulator, element) {
+      return accumulator || !!iterator(element);
+    }, false);
+    // TIP: Try re-using reduce() here.
   };
 
 
@@ -229,7 +236,19 @@ return newArray;
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    //check arguments.length >1
+
+      for(var i=1;i<arguments.length;i++){
+        for (var key in arguments[i]){
+          //add each key in arguments [i] to obj
+
+        }
+      }
+
   };
+
+
+
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
