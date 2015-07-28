@@ -240,11 +240,11 @@ return newArray;
 
       for(var i=1;i<arguments.length;i++){
         for (var key in arguments[i]){
-          //add each key in arguments [i] to obj
+          obj[key]=arguments[i][key];
 
         }
       }
-
+      return obj;
   };
 
 
@@ -253,6 +253,15 @@ return newArray;
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+      for(var i=1;i<arguments.length;i++){
+        for (var key in arguments[i]){
+          if(obj[key]===undefined){
+            obj[key]=arguments[i][key];
+          }
+
+        }
+      }
+      return obj;
   };
 
 
@@ -296,7 +305,15 @@ return newArray;
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-  };
+  var cached = {};
+  return function() {
+   var strKey = JSON.stringify(arguments);
+   if (cached[strKey] === undefined) {
+    cached[strKey] = func.apply(this, arguments);
+  }
+  return cached[strKey];
+};
+};
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -305,6 +322,11 @@ return newArray;
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var arglist = [];
+    for (var i = 2; i<arguments.length; i++){ arglist.push(arguments[i])}
+    return setTimeout(function() {
+      return func.apply(this, arglist);
+    }, wait);
   };
 
 
