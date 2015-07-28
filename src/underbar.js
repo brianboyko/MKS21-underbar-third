@@ -102,6 +102,15 @@ return newArray;
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var newArray=[];
+    newArray.push(array[0]);
+
+    for(var i=0;i<array.length;i++){
+      if(_.indexOf(newArray, array[i])=== -1){
+        newArray.push(array[i])
+      }
+    }
+    return newArray;
   };
 
 
@@ -110,6 +119,11 @@ return newArray;
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var newArray=[];
+    _.each(collection, function (item){
+      newArray.push(iterator(item));
+    })
+    return newArray;
   };
 
   /*
@@ -151,7 +165,17 @@ return newArray;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    _.each(collection, function(element) {
+      if (accumulator === undefined) {
+        accumulator = element;
+      } else {
+        accumulator = iterator(accumulator, element);
+      }
+    }); //end _.each
+    return accumulator;
   };
+
+
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -168,6 +192,13 @@ return newArray;
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+//    if (collection.length === 0) {
+//      return true;
+//    }
+    iterator = iterator || _.identity;
+    return !!_.reduce(collection, function(accumulator, element) {
+      return accumulator && iterator(element);
+    }, true);
     // TIP: Try re-using reduce() here.
   };
 
