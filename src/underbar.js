@@ -205,7 +205,10 @@ return newArray;
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
-  _.some = function(collection, iterator) {
+
+  // FIRST VERSION, WORKS PERFECTLY
+
+ _.some = function(collection, iterator) {
   if (collection.length === 0) {
       return false;
     }
@@ -214,8 +217,17 @@ return newArray;
       return accumulator || !!iterator(element);
     }, false);
     // TIP: Try re-using reduce() here.
-  };
+  }; // known working code before refactor
 
+// SECOND VERSION TRYING TO BE CLEVER, WE WOULD HAVE GOT IT EVENTUALLY
+/*
+  _.some = function(collection, iterator) {
+    var noterator = function(iterator) {
+      return !iterator;
+    };
+    return !_.every(collection, noterator);
+  };
+*/
 
   /**
    * OBJECTS
