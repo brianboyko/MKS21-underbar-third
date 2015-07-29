@@ -364,7 +364,20 @@ return newArray;
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-  };
+    var output = [];
+    var i = 0;
+    var isFunc = !!(Object.prototype.toString.call(functionOrKey) ===
+      '[object Function]');
+    output = _.map(collection, function(value) {
+      if (isFunc) {
+        return functionOrKey.apply(value);
+      } else {
+        var method = value[functionOrKey];
+        return method.apply(value);
+      }
+    });
+    return output;
+  }; //end invoke
 
   // Sort the object's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
